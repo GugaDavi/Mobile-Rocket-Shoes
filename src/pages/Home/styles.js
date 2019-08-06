@@ -3,8 +3,6 @@ import { RectButton } from 'react-native-gesture-handler';
 import { darken } from 'polished';
 import { Animated } from 'react-native';
 
-import tenis from '../../images/tenis.png';
-
 export const Container = styled.View`
   padding: 20px;
 `;
@@ -24,9 +22,7 @@ export const ViewProduct = styled.View`
   background: #fff;
   border-radius: 5px;
 `;
-export const ViewImage = styled.Image.attrs({
-  source: tenis,
-})``;
+export const ViewImage = styled.Image.attrs({})``;
 export const Infos = styled.View`
   text-align: right;
   padding-left: 10px;

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Animated } from 'react-native';
 
+import api from '../../services/api';
+
 import {
   Container,
   ViewProduct,
@@ -21,9 +23,10 @@ export default class Home extends Component {
   state = {
     animations: true,
     arrow: new Animated.Value(0),
+    products: [],
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { arrow } = this.state;
 
     Animated.loop(
@@ -39,6 +42,14 @@ export default class Home extends Component {
         interations: Infinity,
       }
     ).start();
+
+    try {
+      const response = await api.get('/products');
+      console.tron.log(response);
+      this.setState({ products: response.data });
+    } catch (error) {
+      console.tron.log(error);
+    }
   }
 
   stopAnimation = e => {
@@ -46,7 +57,7 @@ export default class Home extends Component {
   };
 
   render() {
-    const { arrow, animations } = this.state;
+    const { arrow, animations, products } = this.state;
 
     return (
       <Container>
@@ -54,35 +65,7 @@ export default class Home extends Component {
           <ViewProduct>
             <ViewImage />
             <Infos>
-              <Description>Tenis Bacana!!</Description>
-              <Value>R$ 200,00</Value>
-            </Infos>
-            <AddToCart>
-              <Cart>
-                <Icon name="cart-plus" size={20} color="#fff" />
-                <Amount color="#fff">0</Amount>
-              </Cart>
-              <Action>ADICIONAR</Action>
-            </AddToCart>
-          </ViewProduct>
-          <ViewProduct>
-            <ViewImage />
-            <Infos>
-              <Description>Tenis Bacana!!</Description>
-              <Value>R$ 200,00</Value>
-            </Infos>
-            <AddToCart>
-              <Cart>
-                <Icon name="cart-plus" size={20} color="#fff" />
-                <Amount color="#fff">0</Amount>
-              </Cart>
-              <Action>ADICIONAR</Action>
-            </AddToCart>
-          </ViewProduct>
-          <ViewProduct>
-            <ViewImage />
-            <Infos>
-              <Description>Tenis Bacana!!</Description>
+              <Description>Tenis Bacana</Description>
               <Value>R$ 200,00</Value>
             </Infos>
             <AddToCart>
@@ -94,6 +77,7 @@ export default class Home extends Component {
             </AddToCart>
           </ViewProduct>
         </Products>
+
         {animations ? (
           <Indicator
             style={{

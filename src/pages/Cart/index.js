@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
@@ -16,6 +16,12 @@ import {
   Quantitaty,
   Amount,
   Total,
+  InfosCart,
+  Totals,
+  TextTotal,
+  ValueTotal,
+  ClosedCart,
+  ClosedCartText,
 } from './styles';
 
 export default function Cart() {
@@ -63,6 +69,15 @@ export default function Cart() {
               <Total>R$ 200,00</Total>
             </AmountProduct>
           </View>
+          <InfosCart>
+            <Totals>
+              <TextTotal>Total</TextTotal>
+              <ValueTotal>R$ 400,00</ValueTotal>
+            </Totals>
+            <ClosedCart>
+              <ClosedCartText>Finalizar Pedido</ClosedCartText>
+            </ClosedCart>
+          </InfosCart>
         </ViewCart>
       </ScrollView>
     </Container>

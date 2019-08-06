@@ -1,9 +1,8 @@
 import React from 'react';
+import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { Container, Logo } from './styles';
-
-import Cart from '../../pages/Cart';
+import { Container, Logo, AmountInCart } from './styles';
 
 class Header extends React.Component {
   state = {};
@@ -17,13 +16,16 @@ class Header extends React.Component {
   render() {
     return (
       <Container>
-        <Logo />
-        <Icon
-          name="cart-outline"
-          color="#fff"
-          size={24}
-          onPress={() => this.handleNavigate('Cart')}
-        />
+        <Logo onPress={() => this.handleNavigate('Home')} />
+        <View>
+          <Icon
+            name="cart-outline"
+            color="#fff"
+            size={30}
+            onPress={() => this.handleNavigate('Cart')}
+          />
+          <AmountInCart>5</AmountInCart>
+        </View>
       </Container>
     );
   }
