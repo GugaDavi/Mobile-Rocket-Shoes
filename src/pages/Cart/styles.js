@@ -30,9 +30,10 @@ export const ImageProduct = styled.Image.attrs({
 export const Infos = styled.View`
   flex-direction: row;
   align-items: center;
+  flex: 1;
 `;
-export const Description = styled.Text`
-  font-size: 18px;
+export const Description = styled.Text.attrs({})`
+  font-size: 16px;
 `;
 export const Price = styled.Text`
   font-size: 20px;
