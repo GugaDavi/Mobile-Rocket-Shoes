@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { RectButton } from 'react-native-gesture-handler';
 
 import logo from '../../images/Logo.png';
 
@@ -8,6 +9,8 @@ export const Container = styled.View`
   align-items: center;
   padding: 20px;
 `;
+
+export const ActionLogo = styled(RectButton)``;
 
 export const Logo = styled.Image.attrs({
   source: logo,

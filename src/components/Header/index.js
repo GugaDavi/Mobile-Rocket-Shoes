@@ -1,8 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { Container, Logo, AmountInCart } from './styles';
+import { Container, Logo, AmountInCart, ActionLogo } from './styles';
 
 class Header extends React.Component {
   state = {};
@@ -14,9 +15,13 @@ class Header extends React.Component {
   };
 
   render() {
+    const { cartSize } = this.props;
+
     return (
       <Container>
-        <Logo onPress={() => this.handleNavigate('Home')} />
+        <ActionLogo onPress={() => this.handleNavigate('Home')}>
+          <Logo />
+        </ActionLogo>
         <View>
           <Icon
             name="cart-outline"
@@ -24,11 +29,13 @@ class Header extends React.Component {
             size={30}
             onPress={() => this.handleNavigate('Cart')}
           />
-          <AmountInCart>5</AmountInCart>
+          <AmountInCart>{cartSize}</AmountInCart>
         </View>
       </Container>
     );
   }
 }
 
-export default Header;
+export default connect(state => ({
+  cartSize: state.cart.length,
+}))(Header);
