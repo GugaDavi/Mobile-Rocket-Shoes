@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Animated } from 'react-native';
 
 import api from '../../services/api';
+import { formatPrice } from '../../util/format';
+import * as CartActions from '../../store/modules/cart/actions';
 
 import {
   Container,
@@ -19,7 +23,7 @@ import {
   Indicator,
 } from './styles';
 
-export default class Home extends Component {
+class Home extends Component {
   state = {
     animations: true,
     arrow: new Animated.Value(0),
@@ -43,39 +47,49 @@ export default class Home extends Component {
       }
     ).start();
 
-    try {
-      const response = await api.get('/products');
-      console.tron.log(response);
-      this.setState({ products: response.data });
-    } catch (error) {
-      console.tron.log(error);
-    }
+    const response = await api.get('/products');
+
+    const data = response.data.map(product => ({
+      ...product,
+      priceFormatted: formatPrice(product.price),
+    }));
+
+    this.setState({ products: data });
   }
 
-  stopAnimation = e => {
+  stopAnimation = () => {
     this.setState({ animations: false });
+  };
+
+  handleAddProduct = id => {
+    const { addToCartRequest } = this.props;
+
+    addToCartRequest(id);
   };
 
   render() {
     const { arrow, animations, products } = this.state;
+    const { amount } = this.props;
 
     return (
       <Container>
         <Products onScrollEndDrag={this.stopAnimation}>
-          <ViewProduct>
-            <ViewImage />
-            <Infos>
-              <Description>Tenis Bacana</Description>
-              <Value>R$ 200,00</Value>
-            </Infos>
-            <AddToCart>
-              <Cart>
-                <Icon name="cart-plus" size={20} color="#fff" />
-                <Amount color="#fff">0</Amount>
-              </Cart>
-              <Action>ADICIONAR</Action>
-            </AddToCart>
-          </ViewProduct>
+          {products.map(product => (
+            <ViewProduct key={product.id}>
+              <ViewImage source={{ uri: product.image }} />
+              <Infos>
+                <Description>{product.title}</Description>
+                <Value>{product.priceFormatted}</Value>
+              </Infos>
+              <AddToCart onPress={() => this.handleAddProduct(product.id)}>
+                <Cart>
+                  <Icon name="cart-plus" size={20} color="#fff" />
+                  <Amount color="#fff">{amount[product.id] || 0}</Amount>
+                </Cart>
+                <Action>ADICIONAR</Action>
+              </AddToCart>
+            </ViewProduct>
+          ))}
         </Products>
 
         {animations ? (
@@ -95,3 +109,19 @@ export default class Home extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  amount: state.cart.reduce((amount, product) => {
+    amount[product.id] = product.amount;
+
+    return amount;
+  }, {}),
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CartActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);

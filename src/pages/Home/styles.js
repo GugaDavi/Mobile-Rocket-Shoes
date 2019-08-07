@@ -21,11 +21,14 @@ export const ViewProduct = styled.View`
   margin-right: 20px;
   background: #fff;
   border-radius: 5px;
+  width: 320px;
 `;
-export const ViewImage = styled.Image.attrs({})``;
+export const ViewImage = styled.Image`
+  width: 260px;
+  height: 260px;
+`;
 export const Infos = styled.View`
   text-align: right;
-  padding-left: 10px;
   margin-bottom: 5px;
 `;
 export const Description = styled.Text`
@@ -40,11 +43,13 @@ export const Value = styled.Text`
 
 export const AddToCart = styled(RectButton)`
   flex-direction: row;
+  margin-top: auto;
   align-items: center;
   background: #7159c1;
   color: #fff;
   text-align: center;
   border-radius: 5px;
+  overflow: hidden;
 `;
 
 export const Action = styled.Text`
@@ -61,7 +66,7 @@ export const Cart = styled.View`
   align-items: center;
   justify-content: space-between;
   border-radius: 5px;
-  background: ${darken(0.03, '#7159c1')};
+  background: ${darken(0.05, '#7159c1')};
 `;
 
 export const Amount = styled.Text`
